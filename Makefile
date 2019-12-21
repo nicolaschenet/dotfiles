@@ -2,7 +2,7 @@
 
 all: install backup link
 
-install: install-homebrew install-hyper install-zsh install-git install-vscode install-1password install-slack install-google-chrome install-whatsapp install-docker install-command-line-tools
+install: install-homebrew install-hyper install-zsh install-git install-vscode install-1password install-slack install-google-chrome install-whatsapp install-docker install-command-line-tools after-install
 
 install-homebrew:
 	@echo "\nInstalling Homebrew..."
@@ -90,3 +90,6 @@ unlink:
 	-@mv -fv ~/.zshrc.old ~/.zshrc
 	-@mv -fv ~/.gitconfig.old ~/.gitconfig
 	-@mv -fv ~/Library/Application\ Support/Code/User/settings.json.old ~/Library/Application\ Support/Code/User/settings.json
+
+after-install:
+	@echo "\n\n🎉 🎉 🎉  You're all good! 🎉 🎉 🎉\n"
