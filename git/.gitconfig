@@ -12,3 +12,4 @@
 	lg = log --pretty=tformat:'%C(yellow)[%h]%C(reset) %C(magenta)%d%C(reset) %C(cyan)%s%C(reset) %C(green)(%an %cd)%C    (reset)' --date=relative --graph
 	ci = commit
 	st = status
+	amend = !git add -A && git commit --amend --no-edit
