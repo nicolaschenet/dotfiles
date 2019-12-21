@@ -2,7 +2,9 @@
 
 all: install backup link after-install
 
-install: install-homebrew install-hyper install-zsh install-git install-vscode install-1password install-slack install-google-chrome install-whatsapp install-docker install-command-line-tools
+install: install-homebrew install-hyper install-zsh install-git install-vscode install-1password install-slack install-google-chrome install-whatsapp install-docker install-command-line-tools yarn
+
+yarn: install-yarn install-yarn-packages
 
 install-homebrew:
 	@echo "\nInstalling Homebrew..."
@@ -64,6 +66,15 @@ install-docker:
 install-command-line-tools:
 	@echo "\nInstalling Command line tools..."
 	-@xcode-select --install
+
+install-yarn:
+	@echo "\nInstalling Yarn..."
+	-@brew install yarn
+
+install-yarn-packages:
+	@echo "\nInstalling Yarn packages..."
+	-@yarn global add gitmoji-cli
+
 
 backup:
 	@echo "\nBacking up old configuration files...\n"

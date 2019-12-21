@@ -1,11 +1,19 @@
 alias zconf="code ~/.zshrc"
 alias reload="source ~/.zshrc"
 
+unalias gc
+unalias gap
+
 alias bs="branches-status"
 
+alias gap="git add -p"
+alias gco="git co"
+alias gbr="git br"
+alias glog="git lg"
+alias gc="gitmoji -c"
+alias gci="git ci"
 alias gs="git status"
 alias gss="git status --short"
-alias gap="git add -p"
 alias gpu="git push origin -u"
 alias atp="git fetch -atp && git status"
 
