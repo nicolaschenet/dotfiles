@@ -2,7 +2,7 @@
 
 all: install backup link install-fonts after-install
 
-install: install-homebrew install-hyper install-zsh install-git install-vscode install-1password install-slack install-google-chrome install-whatsapp install-docker install-command-line-tools yarn
+install: install-homebrew install-hyper install-zsh install-p10k install-git install-vscode install-1password install-slack install-google-chrome install-whatsapp install-docker install-command-line-tools yarn
 
 yarn: install-yarn install-yarn-packages
 
@@ -17,6 +17,10 @@ install-hyper:
 install-zsh:
 	@echo "\nInstalling Oh my zsh..."
 	-@curl -fsSL raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh
+install-p10k:
+	@echo "\nInstalling powerlevel10k..."
+	-@git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "~/.oh-my-zsh/custom/themes/powerlevel10k"
+	-@cp -v "$(PWD)/zsh/.p10k.zsh" ~/
 install-git:
 	@echo "\nInstalling git..."
 	-@brew install git
