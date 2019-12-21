@@ -2,6 +2,8 @@ alias zconf="code ~/.zshrc"
 alias reload="source ~/.zshrc"
 
 alias bs="branches-status"
+
+alias amend="git commit --amend --no-edit"
 alias gs="git status"
 alias gss="git status --short"
 alias gap="git add -p"
