@@ -2,7 +2,7 @@
 
 all: install backup link
 
-install: install-homebrew install-hyper install-zsh install-git install-vscode install-1password install-docker install-slack install-google-chrome install-whatsapp
+install: install-homebrew install-hyper install-zsh install-git install-vscode install-1password install-slack install-google-chrome install-whatsapp install-docker install-command-line-tools
 
 install-homebrew:
 	@echo "\nInstalling Homebrew..."
@@ -49,9 +49,6 @@ install-vscode:
 install-1password:
 	@echo "\nInstalling 1password..."
 	-@brew cask install 1password
-install-docker:
-	@echo "\nInstalling Docker..."
-	-@brew cask install docker
 install-slack:
 	@echo "\nInstalling Slack..."
 	-@brew cask install slack
@@ -61,6 +58,12 @@ install-google-chrome:
 install-whatsapp:
 	@echo "\nInstalling WhatsApp..."
 	-@brew cask install whatsapp
+install-docker:
+	@echo "\nInstalling Docker..."
+	-@brew cask install docker
+install-command-line-tools:
+	@echo "\nInstalling Command line tools..."
+	-@xcode-select --install
 
 backup:
 	@echo "\nBacking up old configuration files...\n"
