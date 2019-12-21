@@ -1,0 +1,14 @@
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[user]
+	email = nicolas.chenet@datadoghq.com
+	name = Nicolas Chenet
+[alias]
+	co = checkout
+	br = branch
+	lg = log --pretty=tformat:'%C(yellow)[%h]%C(reset) %C(magenta)%d%C(reset) %C(cyan)%s%C(reset) %C(green)(%an %cd)%C    (reset)' --date=relative --graph
+	ci = commit
+	st = status
