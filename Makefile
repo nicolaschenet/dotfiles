@@ -1,6 +1,6 @@
 .PHONEY: install link unlink
 
-all: install backup link after-install
+all: install backup link install-fonts after-install
 
 install: install-homebrew install-hyper install-zsh install-git install-vscode install-1password install-slack install-google-chrome install-whatsapp install-docker install-command-line-tools yarn
 
@@ -75,6 +75,9 @@ install-yarn-packages:
 	@echo "\nInstalling Yarn packages..."
 	-@yarn global add gitmoji-cli
 
+install-fonts:
+	@echo "\nInstalling fonts..."
+	-@cp -av "$(PWD)/fonts/." ~/Library/Fonts
 
 backup:
 	@echo "\nBacking up old configuration files...\n"
