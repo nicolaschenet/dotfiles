@@ -1,8 +1,8 @@
 .PHONEY: install link unlink
 
-all: install backup link
+all: install backup link after-install
 
-install: install-homebrew install-hyper install-zsh install-git install-vscode install-1password install-slack install-google-chrome install-whatsapp install-docker install-command-line-tools after-install
+install: install-homebrew install-hyper install-zsh install-git install-vscode install-1password install-slack install-google-chrome install-whatsapp install-docker install-command-line-tools
 
 install-homebrew:
 	@echo "\nInstalling Homebrew..."
