@@ -2,7 +2,7 @@
 
 all: install backup link install-fonts after-install
 
-install: install-homebrew install-node install-hyper install-zsh install-p10k install-git install-vscode install-1password install-slack install-google-chrome install-whatsapp install-docker install-command-line-tools yarn
+install: install-homebrew install-node install-hyper install-htop install-zsh install-p10k install-git install-vscode install-1password install-slack install-google-chrome install-whatsapp install-docker install-command-line-tools yarn
 
 yarn: install-yarn install-yarn-packages
 
@@ -98,6 +98,11 @@ install-yarn-packages:
 install-fonts:
 	@echo "\nInstalling fonts..."
 	-@cp -av "$(PWD)/fonts/." ~/Library/Fonts
+
+install-htop:
+	@echo "\nInstalling htop..."
+	-@brew install htop
+
 
 backup:
 	@echo "\nBacking up old configuration files...\n"
