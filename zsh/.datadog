@@ -1,7 +1,3 @@
-# BEGIN DATADOG CONFIG BLOCK
-
-# BEGIN ANSIBLE MANAGED BLOCK
-
 # Add homebrew binaries to the path.
 export PATH="/usr/local/bin:${PATH?}"
 
@@ -33,8 +29,8 @@ export AWS_VAULT_KEYCHAIN_NAME=login
 # tweak session times so you don't have to re-enter passwords every 5min
 export AWS_SESSION_TTL=24h
 export AWS_ASSUME_ROLE_TTL=1h
-# END ANSIBLE MANAGED BLOCK
 
+# Gitlab
 export GITLAB_TOKEN=x38WLYE_VVXgTvem2xbK
 
-# END DATADOG CONFIG BLOCK
+
