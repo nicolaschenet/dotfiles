@@ -2,7 +2,7 @@
 
 all: install backup link install-fonts after-install
 
-install: install-homebrew install-hyper install-zsh install-p10k install-git install-vscode install-1password install-slack install-google-chrome install-whatsapp install-docker install-command-line-tools yarn
+install: install-homebrew install-node install-hyper install-zsh install-p10k install-git install-vscode install-1password install-slack install-google-chrome install-whatsapp install-docker install-command-line-tools yarn
 
 yarn: install-yarn install-yarn-packages
 
@@ -11,19 +11,29 @@ install-homebrew:
 	-@curl -fsSL raw.githubusercontent.com/Homebrew/install/master/install | ruby
 	@echo "\nUpdating Homebrew"
 	-@brew update
+
+install-node:
+	@echo "\nInstalling Node..."
+	-@brew install node
+	-@brew upgrade node
+
 install-hyper:
 	@echo "\nInstalling Hyper..."
 	-@brew cask install hyper
+
 install-zsh:
 	@echo "\nInstalling Oh my zsh..."
 	-@curl -fsSL raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh
+
 install-p10k:
 	@echo "\nInstalling powerlevel10k..."
-	-@git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "~/.oh-my-zsh/custom/themes/powerlevel10k"
-	-@cp -v "$(PWD)/zsh/.p10k.zsh" ~/
+	-@git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
+	-@cp -v "$(PWD)/zsh/.p10k.zsh" ~/.p10k.zsh
+
 install-git:
 	@echo "\nInstalling git..."
 	-@brew install git
+
 install-vscode:
 	@echo "\nInstalling vscode..."
 	-@brew cask install visual-studio-code
@@ -52,21 +62,27 @@ install-vscode:
 	-@code --install-extension waderyan.gitblame
 	-@code --install-extension yummygum.city-lights-theme
 	-@code --install-extension Zignd.html-css-class-completion
+
 install-1password:
 	@echo "\nInstalling 1password..."
 	-@brew cask install 1password
+
 install-slack:
 	@echo "\nInstalling Slack..."
 	-@brew cask install slack
+
 install-google-chrome:
 	@echo "\nInstalling Google Chrome..."
 	-@brew cask install google-chrome
+
 install-whatsapp:
 	@echo "\nInstalling WhatsApp..."
 	-@brew cask install whatsapp
+
 install-docker:
 	@echo "\nInstalling Docker..."
 	-@brew cask install docker
+
 install-command-line-tools:
 	@echo "\nInstalling Command line tools..."
 	-@xcode-select --install
