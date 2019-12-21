@@ -1,5 +1,5 @@
-alias tuning="code ~/.zshrc"
-alias tuned="source ~/.zshrc"
+alias zconf="code ~/.zshrc"
+alias reload="source ~/.zshrc"
 
 alias bs="branches-status"
 alias gs="git status"
