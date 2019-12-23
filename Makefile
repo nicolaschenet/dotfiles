@@ -34,6 +34,10 @@ install-git:
 	@echo "\nInstalling git..."
 	-@brew install git
 
+install-github-desktop:
+	@echo "\nInstalling Github Desktop..."
+	-@brew cask install github
+
 install-vscode:
 	@echo "\nInstalling vscode..."
 	-@brew cask install visual-studio-code
