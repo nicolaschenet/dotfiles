@@ -1,13 +1,14 @@
 -include make/brew.formulae
 -include make/brew.casks
 -include make/yarn.packages.global
+-include make/vscode.extensions
 
-.PHONY: $(BREW_FORMULAE) $(BREW_CASKS) $(YARN_GLOBAL_PACKAGES)
+.PHONY: $(BREW_FORMULAE) $(BREW_CASKS) $(YARN_GLOBAL_PACKAGES) $(VSCODE_EXTENSIONS)
 
 all: install backup link after-install
 
 install: install-homebrew \
-		 install-brew-formulae install-brew-casks \
+		 install-brew-apps \
 		 install-zsh install-p10k \
 		 install-vscode-extensions install-yarn-global-packages \
 		 install-command-line-tools \
@@ -18,6 +19,8 @@ install-homebrew:
 	-@curl -fsSL raw.githubusercontent.com/Homebrew/install/master/install | ruby
 	@echo "\nUpdating Homebrew"
 	-@brew update
+
+install-brew-apps: install-brew-formulae install-brew-casks
 
 install-brew-formulae: $(BREW_FORMULAE)
 install-brew-casks: $(BREW_CASKS)
@@ -39,33 +42,10 @@ install-p10k:
 	-@git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
 	-@cp -v "$(PWD)/zsh/.p10k.zsh" ~/.p10k.zsh
 
-install-vscode-extensions:
-	@echo "\nInstalling vscode extensions..."
-	-@code --install-extension alefragnani.project-manager
-	-@code --install-extension arcticicestudio.nord-visual-studio-code
-	-@code --install-extension atomiks.moonlight
-	-@code --install-extension be5invis.vscode-custom-css
-	-@code --install-extension bierner.github-markdown-preview
-	-@code --install-extension bierner.markdown-checkbox
-	-@code --install-extension bierner.markdown-emoji
-	-@code --install-extension bierner.markdown-preview-github-styles
-	-@code --install-extension bierner.markdown-yaml-preamble
-	-@code --install-extension christian-kohler.path-intellisense
-	-@code --install-extension dbaeumer.vscode-eslint
-	-@code --install-extension Equinusocio.vsc-material-theme
-	-@code --install-extension marcosfede.awesome-material-theme
-	-@code --install-extension mgmcdermott.vscode-language-babel
-	-@code --install-extension mikestead.dotenv
-	-@code --install-extension NuclleaR.vscode-extension-auto-import
-	-@code --install-extension phgn.vscode-starlark
-	-@code --install-extension PKief.material-icon-theme
-	-@code --install-extension RobbOwen.synthwave-vscode
-	-@code --install-extension samverschueren.final-newline
-	-@code --install-extension shd101wyy.markdown-preview-enhanced
-	-@code --install-extension tristanremy.mirage
-	-@code --install-extension waderyan.gitblame
-	-@code --install-extension yummygum.city-lights-theme
-	-@code --install-extension Zignd.html-css-class-completion
+install-vscode-extensions: $(VSCODE_EXTENSIONS)
+
+ $(VSCODE_EXTENSIONS):
+	-@code --install-extension $@
 
 install-yarn-global-packages: $(YARN_GLOBAL_PACKAGES)
 
