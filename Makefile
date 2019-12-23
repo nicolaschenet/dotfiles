@@ -1,9 +1,6 @@
-BREW_FORMULAE := git htop node yarn
-
-BREW_CASKS := 1clipboard 1password docker github google-chrome hyper slack \
-			  spotify visual-studio-code whatsapp zoom
-
-YARN_GLOBAL_PACKAGES := gitmoji-cli
+-include make/brew.formulae
+-include make/brew.casks
+-include make/yarn.packages.global
 
 .PHONY: $(BREW_FORMULAE) $(BREW_CASKS) $(YARN_GLOBAL_PACKAGES)
 

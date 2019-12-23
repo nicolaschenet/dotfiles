@@ -1,0 +1,2 @@
+BREW_CASKS := 1clipboard 1password docker github google-chrome hyper slack \
+			  spotify visual-studio-code whatsapp zoom
