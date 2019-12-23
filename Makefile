@@ -2,7 +2,7 @@
 
 all: install backup link install-fonts after-install
 
-install: install-homebrew install-node install-hyper install-htop install-zsh install-p10k install-git install-vscode install-1password install-slack install-google-chrome install-whatsapp install-docker install-command-line-tools yarn
+install: install-homebrew install-node install-hyper install-htop install-zsh install-p10k install-git install-vscode install-1password install-slack install-google-chrome install-spotify install-whatsapp install-docker install-command-line-tools yarn
 
 yarn: install-yarn install-yarn-packages
 
@@ -74,6 +74,10 @@ install-slack:
 install-google-chrome:
 	@echo "\nInstalling Google Chrome..."
 	-@brew cask install google-chrome
+
+install-spotify:
+	@echo "\nInstalling Spotify..."
+	-@brew cask install spotify
 
 install-whatsapp:
 	@echo "\nInstalling WhatsApp..."
