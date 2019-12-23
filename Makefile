@@ -1,10 +1,20 @@
-.PHONEY: install link unlink
+BREW_FORMULAE := git htop node yarn
 
-all: install backup link install-fonts after-install
+BREW_CASKS := 1clipboard 1password docker github google-chrome hyper slack \
+			  spotify visual-studio-code whatsapp zoom
 
-install: install-homebrew install-node install-hyper install-htop install-zsh install-p10k install-git install-vscode install-1password install-slack install-google-chrome install-spotify install-whatsapp install-docker install-command-line-tools yarn install-1clipboard install-zoom
+YARN_GLOBAL_PACKAGES := gitmoji-cli
 
-yarn: install-yarn install-yarn-packages
+.PHONY: $(BREW_FORMULAE) $(BREW_CASKS) $(YARN_GLOBAL_PACKAGES)
+
+all: install backup link after-install
+
+install: install-homebrew \
+		 install-brew-formulae install-brew-casks \
+		 install-zsh install-p10k \
+		 install-vscode-extensions install-yarn-global-packages \
+		 install-command-line-tools \
+		 install-fonts
 
 install-homebrew:
 	@echo "\nInstalling Homebrew..."
@@ -12,14 +22,16 @@ install-homebrew:
 	@echo "\nUpdating Homebrew"
 	-@brew update
 
-install-node:
-	@echo "\nInstalling Node..."
-	-@brew install node
-	-@brew upgrade node
+install-brew-formulae: $(BREW_FORMULAE)
+install-brew-casks: $(BREW_CASKS)
 
-install-hyper:
-	@echo "\nInstalling Hyper..."
-	-@brew cask install hyper
+$(BREW_FORMULAE):
+	@echo "\nInstalling $@..."
+	-@brew install $@
+
+$(BREW_CASKS):
+	@echo "\nInstalling $@..."
+	-@brew cask install $@
 
 install-zsh:
 	@echo "\nInstalling Oh my zsh..."
@@ -30,17 +42,8 @@ install-p10k:
 	-@git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
 	-@cp -v "$(PWD)/zsh/.p10k.zsh" ~/.p10k.zsh
 
-install-git:
-	@echo "\nInstalling git..."
-	-@brew install git
-
-install-github-desktop:
-	@echo "\nInstalling Github Desktop..."
-	-@brew cask install github
-
-install-vscode:
-	@echo "\nInstalling vscode..."
-	-@brew cask install visual-studio-code
+install-vscode-extensions:
+	@echo "\nInstalling vscode extensions..."
 	-@code --install-extension alefragnani.project-manager
 	-@code --install-extension arcticicestudio.nord-visual-studio-code
 	-@code --install-extension atomiks.moonlight
@@ -67,57 +70,19 @@ install-vscode:
 	-@code --install-extension yummygum.city-lights-theme
 	-@code --install-extension Zignd.html-css-class-completion
 
-install-1password:
-	@echo "\nInstalling 1password..."
-	-@brew cask install 1password
+install-yarn-global-packages: $(YARN_GLOBAL_PACKAGES)
 
-install-slack:
-	@echo "\nInstalling Slack..."
-	-@brew cask install slack
-
-install-google-chrome:
-	@echo "\nInstalling Google Chrome..."
-	-@brew cask install google-chrome
-
-install-spotify:
-	@echo "\nInstalling Spotify..."
-	-@brew cask install spotify
-
-install-whatsapp:
-	@echo "\nInstalling WhatsApp..."
-	-@brew cask install whatsapp
-
-install-docker:
-	@echo "\nInstalling Docker..."
-	-@brew cask install docker
+$(YARN_GLOBAL_PACKAGES):
+	@echo "\nInstalling Yarn global package $@..."
+	-@yarn global add $@
 
 install-command-line-tools:
 	@echo "\nInstalling Command line tools..."
 	-@xcode-select --install
 
-install-yarn:
-	@echo "\nInstalling Yarn..."
-	-@brew install yarn
-
-install-yarn-packages:
-	@echo "\nInstalling Yarn packages..."
-	-@yarn global add gitmoji-cli
-
 install-fonts:
 	@echo "\nInstalling fonts..."
 	-@cp -av "$(PWD)/fonts/." ~/Library/Fonts
-
-install-htop:
-	@echo "\nInstalling htop..."
-	-@brew install htop
-
-install-1clipboard:
-	@echo "\nInstalling 1clipboard..."
-	-@brew cask install 1clipboard
-
-install-zoom:
-	@echo "\nInstalling zoom..."
-	-@brew cask install zoom
 
 backup:
 	@echo "\nBacking up old configuration files...\n"
