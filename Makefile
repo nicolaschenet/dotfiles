@@ -2,7 +2,7 @@
 
 all: install backup link install-fonts after-install
 
-install: install-homebrew install-node install-hyper install-htop install-zsh install-p10k install-git install-vscode install-1password install-slack install-google-chrome install-spotify install-whatsapp install-docker install-command-line-tools yarn install-1clipboard
+install: install-homebrew install-node install-hyper install-htop install-zsh install-p10k install-git install-vscode install-1password install-slack install-google-chrome install-spotify install-whatsapp install-docker install-command-line-tools yarn install-1clipboard install-zoom
 
 yarn: install-yarn install-yarn-packages
 
@@ -114,6 +114,10 @@ install-htop:
 install-1clipboard:
 	@echo "\nInstalling 1clipboard..."
 	-@brew cask install 1clipboard
+
+install-zoom:
+	@echo "\nInstalling zoom..."
+	-@brew cask install zoom
 
 backup:
 	@echo "\nBacking up old configuration files...\n"
