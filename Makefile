@@ -5,7 +5,7 @@
 
 .PHONY: $(BREW_FORMULAE) $(BREW_CASKS) $(YARN_GLOBAL_PACKAGES) $(VSCODE_EXTENSIONS)
 
-all: install backup link after-install
+all: install backup link setup-macos after-install
 
 install: install-homebrew \
 		 install-brew-apps \
@@ -86,6 +86,11 @@ unlink:
 	-@mv -fv ~/.zshrc.old ~/.zshrc
 	-@mv -fv ~/.gitconfig.old ~/.gitconfig
 	-@mv -fv ~/Library/Application\ Support/Code/User/settings.json.old ~/Library/Application\ Support/Code/User/settings.json
+
+setup-macos:
+	@echo "\nSetting up MacOS...\n"
+	-@source "$(PWD)/macos/setup.sh"
+	@echo "MacOS ready. Note that some of the changes require a logout/restart to take effect."
 
 after-install:
 	@echo "\n\n🎉 🎉 🎉  You're all good! 🎉 🎉 🎉\n"
