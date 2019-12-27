@@ -1,4 +1,4 @@
-for DOTFILE in `find /Users/nicolas.chenet/.dotfiles/zsh/chunks`
+for CHUNK in `find /Users/nicolas.chenet/.dotfiles/zsh/chunks`
 do
-  [ -f $DOTFILE ] && source $DOTFILE
+  [ -f $CHUNK ] && source $CHUNK
 done
