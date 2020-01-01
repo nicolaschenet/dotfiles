@@ -9,7 +9,7 @@ all: install backup link setup-macos after-install
 
 install: install-homebrew \
 		 install-brew-apps \
-		 install-zsh install-p10k \
+		 install-zsh install-zsh-syntax-highlighting install-p10k \
 		 install-vscode-extensions install-yarn-global-packages \
 		 install-command-line-tools \
 		 install-fonts
@@ -36,6 +36,10 @@ $(BREW_CASKS):
 install-zsh:
 	@echo "\nInstalling Oh my zsh..."
 	-@curl -fsSL raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh
+
+install-zsh-syntax-highlighting:
+	@echo "\nInstalling Oh my zsh plugins..."
+	-@git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 
 install-p10k:
 	@echo "\nInstalling powerlevel10k..."

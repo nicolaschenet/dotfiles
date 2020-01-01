@@ -1,1 +1,1 @@
-BREW_FORMULAE := git htop node yarn
+BREW_FORMULAE := git gmp htop node yarn

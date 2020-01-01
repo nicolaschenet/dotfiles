@@ -1,1 +1,1 @@
-YARN_GLOBAL_PACKAGES := gitmoji-cli
+YARN_GLOBAL_PACKAGES := gitmoji-cli typescript
