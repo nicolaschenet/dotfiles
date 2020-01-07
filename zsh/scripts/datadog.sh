@@ -30,7 +30,5 @@ export AWS_VAULT_KEYCHAIN_NAME=login
 export AWS_SESSION_TTL=24h
 export AWS_ASSUME_ROLE_TTL=1h
 
-# Gitlab
-export GITLAB_TOKEN=x38WLYE_VVXgTvem2xbK
 
 

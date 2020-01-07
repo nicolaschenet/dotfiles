@@ -1,4 +1,4 @@
-for CHUNK in `find /Users/nicolas.chenet/.dotfiles/zsh/chunks`
+for SCRIPT in `find $HOME/.dotfiles/zsh/scripts`
 do
-  [ -f $CHUNK ] && source $CHUNK
+  [ -f $SCRIPT ] && source $SCRIPT
 done
