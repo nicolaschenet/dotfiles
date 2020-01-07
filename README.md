@@ -10,3 +10,5 @@ git clone git@github.com:nicolaschenet/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 ./install.sh
 ```
+
+Executables are available in `install-dotfiles/dist` if necessary.
