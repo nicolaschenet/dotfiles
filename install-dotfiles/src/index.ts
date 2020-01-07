@@ -87,9 +87,9 @@ const tasks = new Listr([{
 
 class InstallDotfiles extends Command {
   async run() {
-    shell.exec('clear')
     // Ask for sudo privileges upfront
     shell.exec('sudo -v')
+    shell.exec('clear')
     console.log('\n✨ Setting up laptop, grab a coffee and enjoy :)')
     console.log('===============================================\n')
     tasks
