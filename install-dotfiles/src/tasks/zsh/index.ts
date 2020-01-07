@@ -1,10 +1,10 @@
 import Listr from 'listr'
 import shell from 'shelljs'
 
-import {HOME} from '../../constants'
+import { HOME } from '../../constants'
 
 export const installZshSyntaxHighlighting = (_ctx: Listr.ListrContext, task: Listr.ListrTaskWrapper<Listr.ListrContext>) => new Promise(resolve => {
-  const stderr = shell.exec(`git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${HOME}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting`, {silent: true}).stderr
+  const stderr = shell.exec(`git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${HOME}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting`, { silent: true }).stderr
   if (stderr.indexOf('exists') !== -1) {
     task.skip('Plugin already installed.')
   }
@@ -12,7 +12,7 @@ export const installZshSyntaxHighlighting = (_ctx: Listr.ListrContext, task: Lis
 })
 
 export const installP10K = (_ctx: Listr.ListrContext, task: Listr.ListrTaskWrapper<Listr.ListrContext>) => new Promise(resolve => {
-  const stderr = shell.exec(`git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${HOME}/.oh-my-zsh/custom/themes/powerlevel10k`, {silent: true}).stderr
+  const stderr = shell.exec(`git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${HOME}/.oh-my-zsh/custom/themes/powerlevel10k`, { silent: true }).stderr
   if (stderr.indexOf('exists') !== -1) {
     task.skip('Plugin already installed.')
   }
@@ -20,7 +20,7 @@ export const installP10K = (_ctx: Listr.ListrContext, task: Listr.ListrTaskWrapp
 })
 
 export const installOhMyZsh = (_ctx: Listr.ListrContext, task: Listr.ListrTaskWrapper<Listr.ListrContext>) => new Promise(resolve => {
-  const stdout = shell.exec('curl -fsSL raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh', {silent: true}).stdout
+  const stdout = shell.exec('curl -fsSL raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh', { silent: true }).stdout
   if (stdout.indexOf('installed') !== -1) {
     task.skip('You already have Oh My Zsh installed.')
   }

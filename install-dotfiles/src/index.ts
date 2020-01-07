@@ -1,15 +1,15 @@
 /* eslint-disable no-console */
-import {Command} from '@oclif/command'
+import { Command } from '@oclif/command'
 import shell from 'shelljs'
 
 import Listr from 'listr'
 
-import {installHomebrew, installBrewFormulae, installBrewCasks} from './tasks/homebrew'
-import {installOhMyZsh, installZshPlugins} from './tasks/zsh'
-import {installVsCodeExtensions} from './tasks/vscode'
-import {installYarnPackages} from './tasks/yarn'
-import {installCliTools, installFonts, setupMacOS} from './tasks/system'
-import {backupOldDotfiles, installDotFiles} from './tasks/dotfiles'
+import { installHomebrew, installBrewFormulae, installBrewCasks } from './tasks/homebrew'
+import { installOhMyZsh, installZshPlugins } from './tasks/zsh'
+import { installVsCodeExtensions } from './tasks/vscode'
+import { installYarnPackages } from './tasks/yarn'
+import { installCliTools, installFonts, setupMacOS } from './tasks/system'
+import { backupOldDotfiles, installDotFiles } from './tasks/dotfiles'
 
 const homebrew = () => new Listr([{
   title: 'Install Homebrew',

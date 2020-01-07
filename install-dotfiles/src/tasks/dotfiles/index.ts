@@ -3,8 +3,8 @@ import fs from 'fs'
 import path from 'path'
 import shell from 'shelljs'
 
-import {DOTFILES} from './constants'
-import {HOME} from '../../constants'
+import { DOTFILES } from './constants'
+import { HOME } from '../../constants'
 
 export const backupOldDotfiles = () => new Listr(Object.values(DOTFILES).map(file => ({
   title: file,

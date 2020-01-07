@@ -1,7 +1,7 @@
 import Listr from 'listr'
 
-import {execCommand} from '../../utils'
-import {BREW_FORMULAE, BREW_CASKS} from './constants'
+import { execCommand } from '../../utils'
+import { BREW_FORMULAE, BREW_CASKS } from './constants'
 
 export const installHomebrew = () =>
   execCommand('curl -fsSL raw.githubusercontent.com/Homebrew/install/master/install | ruby')
