@@ -10,3 +10,6 @@
 	ci = commit
 	st = status
 	amend = !git add -A && git commit --amend --no-edit
+[user]
+	name = Nicolas Chenet
+	email = nicolas.chenet@datadoghq.com
