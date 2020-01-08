@@ -3,9 +3,6 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
-[user]
-	email = nicolas.chenet@datadoghq.com
-	name = Nicolas Chenet
 [alias]
 	co = checkout
 	br = branch
