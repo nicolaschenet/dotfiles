@@ -1,5 +1,9 @@
 # dotfiles
 
+[![Preview](docs/preview.png)](https://a.cl.ly/6quLzm8o)
+
+---
+
 ## Pre-requisites
 
  - Create a `.secrets` file in your HOME directory
