@@ -1,8 +1,6 @@
 /* eslint-disable no-console */
 import { Command } from '@oclif/command'
-
-const { Form } = require('enquirer')
-
+import inquirer from 'inquirer'
 import shell from 'shelljs'
 import Listr from 'listr'
 
@@ -16,12 +14,12 @@ import { git } from './tasks/git'
 
 import { UserInfo } from './types'
 
-let userInfos: UserInfo = {}
+let userInfo: UserInfo = {}
 
-const setUserInfos = (infos: UserInfo) => {
-  userInfos = {
-    ...userInfos,
-    ...infos,
+const setUserInfo = (info: UserInfo) => {
+  userInfo = {
+    ...userInfo,
+    ...info,
   }
 }
 
@@ -98,14 +96,14 @@ const tasks = new Listr([{
   task: dotfiles,
   skip: () => false,
 }, {
-  title: 'Git setup',
-  task: () => git(userInfos),
+  title: 'Git',
+  task: () => git(userInfo),
   skip: () => false,
 }])
 
 const runTasks = () => {
-  console.log('\n✨ Setting up laptop, grab a coffee and enjoy :)')
-  console.log('===============================================\n')
+  console.log('\n✨  Setting up laptop, grab a coffee and enjoy :)')
+  console.log('================================================\n')
   tasks
   .run()
   .then(() => {
@@ -119,28 +117,40 @@ const runTasks = () => {
 
 class InstallDotfiles extends Command {
   async run() {
-    // Ask for sudo privileges upfront
-    shell.exec('sudo -v')
     // Clear screen
     shell.exec('clear')
     // Ask for some user specific information
-    const prompt = new Form({
-      name: 'user',
-      message: '🕵️  Before we continue, please tell me more about you 🕵️',
-      choices: [
-        { name: 'firstname', message: 'First name', initial: 'Nicolas' },
-        { name: 'lastname', message: 'Last name', initial: 'Chenet' },
-        { name: 'email', message: 'Git user email', initial: 'nicolas.chenet@datadoghq.com' },
-      ],
-    })
-    prompt.run()
+    console.log('🕵️  A few questions before we start:')
+    console.log('===================================\n')
+    inquirer
+    .prompt([{
+      type: 'input',
+      name: 'gitUserName',
+      message: 'What is your git user full name?',
+      default: 'Nicolas Chenet',
+    }, {
+      type: 'input',
+      name: 'gitUserEmail',
+      message: 'What is your git user email address?',
+      default: 'nicolas.chenet@datadoghq.com',
+    }, {
+      type: 'password',
+      name: 'password',
+      message: 'This setup needs to use `su`, password please?',
+      validate: input => input.trim() === '' ? 'Password cannot be blank' : true,
+    }])
     .then((info: UserInfo) => {
       // Store user info for further use
-      setUserInfos(info)
-      // Run the tasks
-      runTasks()
+      setUserInfo(info)
+      // Ask for sudo privileges upfront
+      shell.exec(`echo ${info.password} | sudo -Sv`, { async: true, silent: true }, (code, stdout, stderr) => {
+        if (stderr !== '') {
+          return console.error('\n💥  Wrong password, aborting...')
+        }
+        // Run the tasks only if password is okay
+        runTasks()
+      })
     })
-    .catch(console.error)
   }
 }
 

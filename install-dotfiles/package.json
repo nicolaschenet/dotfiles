@@ -11,9 +11,10 @@
     "@oclif/command": "^1",
     "@oclif/config": "^1",
     "@oclif/plugin-help": "^2",
+    "@types/inquirer": "6.5.0",
     "@types/listr": "0.14.2",
     "@types/shelljs": "0.8.6",
-    "enquirer": "2.3.2",
+    "inquirer": "7.0.3",
     "listr": "0.14.3",
     "shelljs": "0.8.3",
     "tslib": "^1"

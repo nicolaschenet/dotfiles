@@ -1,5 +1,5 @@
 export interface UserInfo {
-    firstname?: string;
-    lastname?: string;
-    email?: string;
+    gitUserName?: string;
+    gitUserEmail?: string;
+    password?: string;
 }
