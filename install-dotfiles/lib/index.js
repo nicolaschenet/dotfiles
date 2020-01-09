@@ -2,7 +2,7 @@
 const tslib_1 = require("tslib");
 /* eslint-disable no-console */
 const command_1 = require("@oclif/command");
-const { Form } = require('enquirer');
+const inquirer_1 = tslib_1.__importDefault(require("inquirer"));
 const shelljs_1 = tslib_1.__importDefault(require("shelljs"));
 const listr_1 = tslib_1.__importDefault(require("listr"));
 const homebrew_1 = require("./tasks/homebrew");
@@ -12,9 +12,9 @@ const yarn_1 = require("./tasks/yarn");
 const system_1 = require("./tasks/system");
 const dotfiles_1 = require("./tasks/dotfiles");
 const git_1 = require("./tasks/git");
-let userInfos = {};
-const setUserInfos = (infos) => {
-    userInfos = Object.assign(Object.assign({}, userInfos), infos);
+let userInfo = {};
+const setUserInfo = (info) => {
+    userInfo = Object.assign(Object.assign({}, userInfo), info);
 };
 const homebrew = () => new listr_1.default([{
         title: 'Install Homebrew',
@@ -85,13 +85,13 @@ const tasks = new listr_1.default([{
         task: dotfiles,
         skip: () => false,
     }, {
-        title: 'Git setup',
-        task: () => git_1.git(userInfos),
+        title: 'Git',
+        task: () => git_1.git(userInfo),
         skip: () => false,
     }]);
 const runTasks = () => {
-    console.log('\n✨ Setting up laptop, grab a coffee and enjoy :)');
-    console.log('===============================================\n');
+    console.log('\n✨  Setting up laptop, grab a coffee and enjoy :)');
+    console.log('================================================\n');
     tasks
         .run()
         .then(() => {
@@ -104,28 +104,40 @@ const runTasks = () => {
 };
 class InstallDotfiles extends command_1.Command {
     async run() {
-        // Ask for sudo privileges upfront
-        shelljs_1.default.exec('sudo -v');
         // Clear screen
         shelljs_1.default.exec('clear');
         // Ask for some user specific information
-        const prompt = new Form({
-            name: 'user',
-            message: '🕵️  Before we continue, please tell me more about you 🕵️',
-            choices: [
-                { name: 'firstname', message: 'First name', initial: 'Nicolas' },
-                { name: 'lastname', message: 'Last name', initial: 'Chenet' },
-                { name: 'email', message: 'Git user email', initial: 'nicolas.chenet@datadoghq.com' },
-            ],
-        });
-        prompt.run()
+        console.log('🕵️  A few questions before we start:');
+        console.log('===================================\n');
+        inquirer_1.default
+            .prompt([{
+                type: 'input',
+                name: 'gitUserName',
+                message: 'What is your git user full name?',
+                default: 'Nicolas Chenet',
+            }, {
+                type: 'input',
+                name: 'gitUserEmail',
+                message: 'What is your git user email address?',
+                default: 'nicolas.chenet@datadoghq.com',
+            }, {
+                type: 'password',
+                name: 'password',
+                message: 'This setup needs to use `su`, password please?',
+                validate: input => input.trim() === '' ? 'Password cannot be blank' : true,
+            }])
             .then((info) => {
             // Store user info for further use
-            setUserInfos(info);
-            // Run the tasks
-            runTasks();
-        })
-            .catch(console.error);
+            setUserInfo(info);
+            // Ask for sudo privileges upfront
+            shelljs_1.default.exec(`echo ${info.password} | sudo -Sv`, { async: true, silent: true }, (code, stdout, stderr) => {
+                if (stderr !== '') {
+                    return console.error('\n💥  Wrong password, aborting...');
+                }
+                // Run the tasks only if password is okay
+                runTasks();
+            });
+        });
     }
 }
 module.exports = InstallDotfiles;
