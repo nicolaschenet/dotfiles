@@ -9,6 +9,7 @@ export const BREW_CASKS = [
   'google-chrome',
   'hyper',
   'insomnia',
+  'rectangle',
   'slack',
   'skype',
   'spotify',
