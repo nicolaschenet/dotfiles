@@ -11,6 +11,7 @@ export const BREW_CASKS = [
   'slack',
   'skype',
   'spotify',
+  'trailer',
   'visual-studio-code',
   'whatsapp',
   'zoom',
