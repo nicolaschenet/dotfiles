@@ -23,6 +23,9 @@ const setUserInfo = (info: UserInfo) => {
   }
 }
 
+const handleSkipFor = (choice: string) => userInfo.installChoice && !userInfo.installChoice.includes(choice)
+const shouldAskPassword = (fullInstall?: boolean, installChoice?: string[]) => fullInstall || installChoice?.includes('macos')
+
 const homebrew = () => new Listr([{
   title: 'Install Homebrew',
   task: installHomebrew,
@@ -50,15 +53,15 @@ const zsh = () => new Listr([{
 const system = () => new Listr([{
   title: 'Install command line tools',
   task: installCliTools,
-  skip: () => false,
+  skip: () => handleSkipFor('cli'),
 }, {
   title: 'Install custom fonts',
   task: installFonts,
-  skip: () => false,
+  skip: () => handleSkipFor('fonts'),
 }, {
   title: 'Setup MacOS',
   task: setupMacOS,
-  skip: () => false,
+  skip: () => handleSkipFor('macos'),
 }])
 
 const dotfiles = () => new Listr([{
@@ -74,19 +77,19 @@ const dotfiles = () => new Listr([{
 const tasks = new Listr([{
   title: 'Homebrew',
   task: homebrew,
-  skip: () => false,
+  skip: () => handleSkipFor('homebrew'),
 }, {
   title: 'Zsh',
   task: zsh,
-  skip: () => false,
+  skip: () => handleSkipFor('zsh'),
 }, {
   title: 'Install Visual Studio Code extensions',
   task: installVsCodeExtensions,
-  skip: () => false,
+  skip: () => handleSkipFor('vscode'),
 }, {
   title: 'Install Yarn global packages',
   task: installYarnPackages,
-  skip: () => false,
+  skip: () => handleSkipFor('yarn'),
 }, {
   title: 'System',
   task: system,
@@ -94,11 +97,11 @@ const tasks = new Listr([{
 }, {
   title: 'Dotfiles',
   task: dotfiles,
-  skip: () => false,
+  skip: () => handleSkipFor('dotfiles'),
 }, {
   title: 'Git',
   task: () => git(userInfo),
-  skip: () => false,
+  skip: () => handleSkipFor('git'),
 }])
 
 const runTasks = () => {
@@ -128,20 +131,84 @@ class InstallDotfiles extends Command {
       name: 'gitUserName',
       message: 'What is your git user full name?',
       default: 'Nicolas Chenet',
-    }, {
+    },
+    {
       type: 'input',
       name: 'gitUserEmail',
       message: 'What is your git user email address?',
       default: 'nicolas.chenet@datadoghq.com',
-    }, {
+    },
+    {
+      type: 'confirm',
+      name: 'fullInstall',
+      message: 'Install everything?',
+    },
+    {
+      type: 'checkbox',
+      name: 'installChoice',
+      message: 'What do you want to install?',
+      when: ({ fullInstall }) => !fullInstall,
+      choices: [{
+        name: 'Homebrew stuff',
+        value: 'homebrew',
+        checked: true,
+      },
+      {
+        name: 'Zsh stuff',
+        value: 'zsh',
+        checked: true,
+      },
+      {
+        name: 'Visual Studio Code extensions',
+        value: 'vscode',
+        checked: true,
+      },
+      {
+        name: 'Yarn global packages',
+        value: 'yarn',
+        checked: true,
+      },
+      {
+        name: 'Tweak the system (MacOS)',
+        value: 'macos',
+        checked: true,
+      },
+      {
+        name: 'Command line tools',
+        value: 'cli',
+        checked: true,
+      },
+      {
+        name: 'Custom fonts',
+        value: 'fonts',
+        checked: true,
+      },
+      {
+        name: 'Custom dotfiles',
+        value: 'dotfiles',
+        checked: true,
+      },
+      {
+        name: 'Git settings',
+        value: 'git',
+        checked: true,
+      }],
+    },
+    {
       type: 'password',
       name: 'password',
-      message: 'This setup needs to use `su`, password please?',
+      message: 'To tweak the system, we need to use `su`, password please?',
       validate: input => input.trim() === '' ? 'Password cannot be blank' : true,
+      when: ({ fullInstall, installChoice }) => shouldAskPassword(fullInstall, installChoice),
     }])
     .then((info: UserInfo) => {
       // Store user info for further use
       setUserInfo(info)
+
+      if (!shouldAskPassword(info.fullInstall, info.installChoice)) {
+        return runTasks()
+      }
+
       // Ask for sudo privileges upfront
       shell.exec(`echo ${info.password} | sudo -Sv`, { async: true, silent: true }, (code, stdout, stderr) => {
         if (stderr !== '') {
