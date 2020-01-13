@@ -10,7 +10,6 @@ export const BREW_FORMULAE = [
 export const BREW_CASKS = [
   '1clipboard',
   '1password',
-  'aerial',
   'docker',
   'github',
   'google-chrome',
