@@ -25,6 +25,7 @@ const setUserInfo = (info: UserInfo) => {
 
 const handleSkipFor = (choice: string) => userInfo.installChoice && !userInfo.installChoice.includes(choice)
 const shouldAskPassword = (fullInstall?: boolean, installChoice?: string[]) => fullInstall || installChoice?.includes('macos')
+const shouldAskGitInfo = (fullInstall?: boolean, installChoice?: string[]) => fullInstall || installChoice?.includes('git')
 
 const homebrew = () => new Listr([{
   title: 'Install Homebrew',
@@ -126,81 +127,85 @@ class InstallDotfiles extends Command {
     console.log('🕵️  A few questions before we start:')
     console.log('===================================\n')
     inquirer
-    .prompt([{
-      type: 'input',
-      name: 'gitUserName',
-      message: 'What is your git user full name?',
-      default: 'Nicolas Chenet',
-    },
-    {
-      type: 'input',
-      name: 'gitUserEmail',
-      message: 'What is your git user email address?',
-      default: 'nicolas.chenet@datadoghq.com',
-    },
-    {
-      type: 'confirm',
-      name: 'fullInstall',
-      message: 'Install everything?',
-    },
-    {
-      type: 'checkbox',
-      name: 'installChoice',
-      message: 'What do you want to install?',
-      when: ({ fullInstall }) => !fullInstall,
-      choices: [{
-        name: 'Homebrew stuff',
-        value: 'homebrew',
-        checked: true,
+    .prompt([
+      {
+        type: 'confirm',
+        name: 'fullInstall',
+        message: 'Install everything?',
       },
       {
-        name: 'Zsh stuff',
-        value: 'zsh',
-        checked: true,
+        type: 'checkbox',
+        name: 'installChoice',
+        message: 'What do you want to install?',
+        when: ({ fullInstall }) => !fullInstall,
+        choices: [{
+          name: 'Homebrew stuff',
+          value: 'homebrew',
+          checked: true,
+        },
+        {
+          name: 'Zsh stuff',
+          value: 'zsh',
+          checked: true,
+        },
+        {
+          name: 'Visual Studio Code extensions',
+          value: 'vscode',
+          checked: true,
+        },
+        {
+          name: 'Yarn global packages',
+          value: 'yarn',
+          checked: true,
+        },
+        {
+          name: 'Tweak the system (MacOS)',
+          value: 'macos',
+          checked: true,
+        },
+        {
+          name: 'Command line tools',
+          value: 'cli',
+          checked: true,
+        },
+        {
+          name: 'Custom fonts',
+          value: 'fonts',
+          checked: true,
+        },
+        {
+          name: 'Custom dotfiles',
+          value: 'dotfiles',
+          checked: true,
+        },
+        {
+          name: 'Git settings',
+          value: 'git',
+          checked: true,
+        }],
       },
       {
-        name: 'Visual Studio Code extensions',
-        value: 'vscode',
-        checked: true,
+        type: 'input',
+        name: 'gitUserName',
+        message: 'What is your git user full name?',
+        default: 'Nicolas Chenet',
+        when: ({ fullInstall, installChoice }) => shouldAskGitInfo(fullInstall, installChoice),
       },
       {
-        name: 'Yarn global packages',
-        value: 'yarn',
-        checked: true,
+        type: 'input',
+        name: 'gitUserEmail',
+        message: 'What is your git user email address?',
+        default: 'nicolas.chenet@datadoghq.com',
+        when: ({ fullInstall, installChoice }) => shouldAskGitInfo(fullInstall, installChoice),
       },
       {
-        name: 'Tweak the system (MacOS)',
-        value: 'macos',
-        checked: true,
+        type: 'password',
+        name: 'password',
+        message: 'To tweak the system, we need to use `su`, password please?',
+        validate: input => input.trim() === '' ? 'Password cannot be blank' : true,
+        when: ({ fullInstall, installChoice }) => shouldAskPassword(fullInstall, installChoice),
       },
-      {
-        name: 'Command line tools',
-        value: 'cli',
-        checked: true,
-      },
-      {
-        name: 'Custom fonts',
-        value: 'fonts',
-        checked: true,
-      },
-      {
-        name: 'Custom dotfiles',
-        value: 'dotfiles',
-        checked: true,
-      },
-      {
-        name: 'Git settings',
-        value: 'git',
-        checked: true,
-      }],
-    },
-    {
-      type: 'password',
-      name: 'password',
-      message: 'To tweak the system, we need to use `su`, password please?',
-      validate: input => input.trim() === '' ? 'Password cannot be blank' : true,
-      when: ({ fullInstall, installChoice }) => shouldAskPassword(fullInstall, installChoice),
-    }])
+    ])
     .then((info: UserInfo) => {
       // Store user info for further use
       setUserInfo(info)
