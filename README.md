@@ -1,6 +1,6 @@
 # dotfiles
 
-[![Preview](docs/preview.png)](https://a.cl.ly/6quLzm8o)
+[![Preview](src/docs/preview.png)](https://a.cl.ly/6quLzm8o)
 
 ---
 
@@ -28,4 +28,4 @@ cd ~/.dotfiles
 ./install.sh
 ```
 
-Executables are available in `install-dotfiles/dist` if necessary.
+Executables are available in the `dist` directory if necessary.
