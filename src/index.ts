@@ -14,6 +14,8 @@ import { git } from './tasks/git'
 
 import { UserInfo } from './types'
 
+const { error, log } = console
+
 let userInfo: UserInfo = {}
 
 const setUserInfo = (info: UserInfo) => {
@@ -106,16 +108,16 @@ const tasks = new Listr([{
 }])
 
 const runTasks = () => {
-  console.log('\n💻  Setting up laptop, grab a coffee and enjoy :)')
-  console.log('================================================\n')
+  log('\n💻  Setting up laptop, grab a coffee and enjoy :)')
+  log('================================================\n')
   tasks
   .run()
   .then(() => {
-    console.log("\n🎉  You're all good!")
-    console.log('\nℹ️  Note that some of the changes require a logout/restart to take effect.')
+    log("\n🎉  You're all good!")
+    log('\nℹ️  Note that some of the changes require a logout/restart to take effect.')
   })
   .catch(error => {
-    console.error(error)
+    error(error)
   })
 }
 
@@ -124,8 +126,8 @@ class InstallDotfiles extends Command {
     // Clear screen
     shell.exec('clear')
     // Ask for some user specific information
-    console.log('🕵️  A few questions before we start:')
-    console.log('===================================\n')
+    log('🕵️  A few questions before we start:')
+    log('===================================\n')
     inquirer
     .prompt([
       {
@@ -217,7 +219,7 @@ class InstallDotfiles extends Command {
       // Ask for sudo privileges upfront
       shell.exec(`echo ${info.password} | sudo -Sv`, { async: true, silent: true }, (code, stdout, stderr) => {
         if (stderr !== '') {
-          return console.error('\n💥  Wrong password, aborting...')
+          return error('\n💥  Wrong password, aborting...')
         }
         // Run the tasks only if password is okay
         runTasks()
