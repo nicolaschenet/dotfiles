@@ -2,6 +2,7 @@ import Listr from 'listr'
 import shell from 'shelljs'
 
 import { HOME } from '../../constants'
+import { execCommand } from '../../utils'
 
 export const installZshSyntaxHighlighting = (_ctx: Listr.ListrContext, task: Listr.ListrTaskWrapper<Listr.ListrContext>) => new Promise(resolve => {
   const stderr = shell.exec(`git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${HOME}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting`, { silent: true }).stderr
@@ -26,6 +27,10 @@ export const installOhMyZsh = (_ctx: Listr.ListrContext, task: Listr.ListrTaskWr
   }
   resolve()
 })
+
+export const initRbenv = () => execCommand('rbenv init')
+export const installLatestRuby = () => execCommand('rbenv install -s $(rbenv install -l | grep -v - | tail -1)')
+export const setRubyVersion = () => execCommand('rbenv global $(rbenv install -l | grep -v - | tail -1)')
 
 export const installZshPlugins = () => new Listr([{
   title: 'zsh-syntax-highlighting',

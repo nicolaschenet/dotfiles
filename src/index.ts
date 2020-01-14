@@ -5,7 +5,7 @@ import shell from 'shelljs'
 import Listr from 'listr'
 
 import { installHomebrew, installBrewFormulae, installBrewCasks } from './tasks/homebrew'
-import { installOhMyZsh, installZshPlugins } from './tasks/zsh'
+import { installOhMyZsh, installZshPlugins, initRbenv, installLatestRuby, setRubyVersion } from './tasks/zsh'
 import { installVsCodeExtensions } from './tasks/vscode'
 import { installYarnPackages } from './tasks/yarn'
 import { installCliTools, installFonts, setupMacOS } from './tasks/system'
@@ -44,6 +44,18 @@ const homebrew = () => new Listr([{
 }])
 
 const zsh = () => new Listr([{
+  title: 'Init rbenv',
+  task: initRbenv,
+  skip: () => false,
+}, {
+  title: 'Install latest ruby version',
+  task: installLatestRuby,
+  skip: () => false,
+}, {
+  title: 'Setting ruby version to latest',
+  task: setRubyVersion,
+  skip: () => false,
+}, {
   title: 'Install Oh My Zsh',
   task: installOhMyZsh,
   skip: () => false,

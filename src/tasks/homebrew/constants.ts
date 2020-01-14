@@ -3,8 +3,12 @@ export const BREW_FORMULAE = [
   'htop',
   'node',
   'p7zip',
+  'rbenv',
+  'ruby-build',
   'watchman',
   'yarn',
+  'zsh-autosuggestions',
+  'zsh-syntax-highlighting',
 ]
 
 export const BREW_CASKS = [
