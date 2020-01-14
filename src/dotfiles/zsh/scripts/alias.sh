@@ -1,8 +1,10 @@
+unalias gc
+unalias gap
+
 alias zconf="code ~/.zshrc"
 alias reload="source ~/.zshrc"
 
-unalias gc
-unalias gap
+alias tuning="code ~/.dotfiles/src/dotfiles"
 
 alias bs="branches-status"
 
