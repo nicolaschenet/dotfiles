@@ -106,7 +106,7 @@ const tasks = new Listr([{
 }])
 
 const runTasks = () => {
-  console.log('\n✨  Setting up laptop, grab a coffee and enjoy :)')
+  console.log('\n💻  Setting up laptop, grab a coffee and enjoy :)')
   console.log('================================================\n')
   tasks
   .run()
