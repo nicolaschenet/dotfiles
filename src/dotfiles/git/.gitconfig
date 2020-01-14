@@ -10,6 +10,10 @@
 	ci = commit
 	st = status
 	amend = !git add -A && git commit --amend --no-edit
+	branch-create = "!bc() { git checkout -b $USER/$1; }; bc"
+	branch-delete = "!bd() { git branch -D $1; }; bd"
+	branch-delete-remote= "!bdr() { git push origin :$1; }; bdr"
+
 [user]
 	name = Nicolas Chenet
 	email = nicolas.chenet@datadoghq.com
