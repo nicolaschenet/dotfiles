@@ -22,6 +22,8 @@ alias atp="git fetch -atp && git status"
 alias grc="git rebase --continue"
 alias gra="git rebase --abort"
 alias catchup="atp && git rebase origin/prod"
+alias cb="git cb"
+alias branch-delete-remote="git branch-delete-remote"
 
 alias hotkit="yarn && yarn hotdog --env.entries=styleguide"
 alias hotspa="yarn && yarn hotdog --env.entries=spa"
@@ -32,3 +34,5 @@ alias dd="cd ~/dd"
 alias w="cd ~/dd/web-ui"
 
 alias vs="code ~/Library/Application\ Support/Code/User/settings.json"
+
+alias fix-staging="branches-status staging fix"
