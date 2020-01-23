@@ -7,6 +7,7 @@ const VerboseRenderer = require('listr-verbose-renderer')
 
 import { DOTFILES } from './constants'
 import { HOME } from '../../constants'
+import { execCommand } from '../../utils'
 
 export const backupOldDotfiles = () => new Listr(Object.values(DOTFILES).map(file => ({
   title: file,
@@ -21,6 +22,9 @@ export const backupOldDotfiles = () => new Listr(Object.values(DOTFILES).map(fil
     }
   },
 })), { renderer: VerboseRenderer })
+
+export const prepareDotFilesDirs = () =>
+  execCommand(`mkdir -p ${HOME}/Library/Application Support/Code/User`)
 
 export const installDotFiles = () => new Listr(Object.keys(DOTFILES).map(source => ({
   title: source,

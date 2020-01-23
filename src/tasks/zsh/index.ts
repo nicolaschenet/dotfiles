@@ -30,6 +30,8 @@ export const installOhMyZsh = (_ctx: Listr.ListrContext, task: Listr.ListrTaskWr
   resolve()
 })
 
+export const uninstallOhMyZsh = () => execCommand('rm -rf $(HOME)/.oh-my-zsh')
+
 export const initRbenv = () => execCommand('rbenv init')
 export const installLatestRuby = () => execCommand('rbenv install -s $(rbenv install -l | grep -v - | tail -1)')
 export const setRubyVersion = () => execCommand('rbenv global $(rbenv install -l | grep -v - | tail -1)')

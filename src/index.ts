@@ -7,11 +7,18 @@ import Listr from 'listr'
 const VerboseRenderer = require('listr-verbose-renderer')
 
 import { installHomebrew, installBrewFormulae, installBrewCasks } from './tasks/homebrew'
-import { installOhMyZsh, installZshPlugins, initRbenv, installLatestRuby, setRubyVersion } from './tasks/zsh'
+import {
+  installOhMyZsh,
+  installZshPlugins,
+  initRbenv,
+  installLatestRuby,
+  setRubyVersion,
+  uninstallOhMyZsh,
+} from './tasks/zsh'
 import { installVsCodeExtensions } from './tasks/vscode'
 import { installYarnPackages } from './tasks/yarn'
 import { installCliTools, installFonts, setupMacOS } from './tasks/system'
-import { backupOldDotfiles, installDotFiles } from './tasks/dotfiles'
+import { backupOldDotfiles, installDotFiles, prepareDotFilesDirs } from './tasks/dotfiles'
 import { git } from './tasks/git'
 
 import { UserInfo } from './types'
@@ -45,29 +52,44 @@ const homebrew = () => new Listr([{
   skip: () => false,
 }])
 
-const zsh = () => new Listr([{
-  title: 'Init rbenv',
-  task: initRbenv,
-  skip: () => false,
-}, {
-  title: 'Install latest ruby version',
-  task: installLatestRuby,
-  skip: () => false,
-}, {
-  title: 'Setting ruby version to latest',
-  task: setRubyVersion,
-  skip: () => false,
-}, {
-  title: 'Install Oh My Zsh',
-  task: installOhMyZsh,
-  skip: () => false,
-}, {
-  title: 'Install plugins',
-  task: installZshPlugins,
-  skip: () => false,
-}], {
-  renderer: VerboseRenderer,
-})
+const zsh = () =>
+  new Listr(
+    [
+      {
+        title: 'Init rbenv',
+        task: initRbenv,
+        skip: () => false,
+      },
+      {
+        title: 'Install latest ruby version',
+        task: installLatestRuby,
+        skip: () => false,
+      },
+      {
+        title: 'Setting ruby version to latest',
+        task: setRubyVersion,
+        skip: () => false,
+      },
+      {
+        title: 'Uninstall Oh My Zsh',
+        task: uninstallOhMyZsh,
+        skip: () => false,
+      },
+      {
+        title: 'Install Oh My Zsh',
+        task: installOhMyZsh,
+        skip: () => false,
+      },
+      {
+        title: 'Install plugins',
+        task: installZshPlugins,
+        skip: () => false,
+      },
+    ],
+    {
+      renderer: VerboseRenderer,
+    }
+  )
 
 const system = () => new Listr([{
   title: 'Install command line tools',
@@ -85,17 +107,29 @@ const system = () => new Listr([{
   renderer: VerboseRenderer,
 })
 
-const dotfiles = () => new Listr([{
-  title: 'Backup old dotfiles',
-  task: backupOldDotfiles,
-  skip: () => false,
-}, {
-  title: 'Install new dotfiles',
-  task: installDotFiles,
-  skip: () => false,
-}], {
-  renderer: VerboseRenderer,
-})
+const dotfiles = () =>
+  new Listr(
+    [
+      {
+        title: 'Backup old dotfiles',
+        task: backupOldDotfiles,
+        skip: () => false,
+      },
+      {
+        title: 'Prepare dotfiles directories',
+        task: prepareDotFilesDirs,
+        skip: () => false,
+      },
+      {
+        title: 'Install new dotfiles',
+        task: installDotFiles,
+        skip: () => false,
+      },
+    ],
+    {
+      renderer: VerboseRenderer,
+    }
+  )
 
 const tasks = new Listr([{
   title: 'Homebrew',
