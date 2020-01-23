@@ -5,6 +5,7 @@ export const BREW_FORMULAE = [
   'rbenv',
   'ruby-build',
   'watchman',
+  'yarn',
   'zsh-autosuggestions',
   'zsh-syntax-highlighting',
 ]
