@@ -6,6 +6,10 @@
 
 ## Pre-requisites
 
+### Packages
+ - :octocat: You need to have `git` installed
+
+### How to add your env and secrets 
  - Create a `.secrets` file in your HOME directory
  - Put in every secret tokens or any other personal variables you need to be exported
 
