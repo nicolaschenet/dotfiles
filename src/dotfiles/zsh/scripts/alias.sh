@@ -38,3 +38,5 @@ alias dd="cd ~/dd"
 alias w="cd ~/dd/web-ui"
 
 alias vs="code ~/Library/Application\ Support/Code/User/settings.json"
+
+alias fix-staging="branches-status staging fix"

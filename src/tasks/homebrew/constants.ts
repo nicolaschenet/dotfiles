@@ -1,7 +1,6 @@
 export const BREW_FORMULAE = [
   'git',
   'htop',
-  'node',
   'p7zip',
   'rbenv',
   'ruby-build',
