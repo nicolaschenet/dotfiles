@@ -6,10 +6,10 @@ sudo -v
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 # Install node
-curl -Ls https://install-node.now.sh | sh;
+sudo curl -Ls https://install-node.now.sh | sh;
 
 # Revert `.config` owner to current user
-chown -R $(whoami) ~/.config
+sudo chown -R $(whoami) ~/.config
 
 # Install dependencies
 npm install;
