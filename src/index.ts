@@ -4,6 +4,8 @@ import inquirer from 'inquirer'
 import shell from 'shelljs'
 import Listr from 'listr'
 
+const VerboseRenderer = require('listr-verbose-renderer')
+
 import { installHomebrew, installBrewFormulae, installBrewCasks } from './tasks/homebrew'
 import { installOhMyZsh, installZshPlugins, initRbenv, installLatestRuby, setRubyVersion } from './tasks/zsh'
 import { installVsCodeExtensions } from './tasks/vscode'
@@ -63,7 +65,9 @@ const zsh = () => new Listr([{
   title: 'Install plugins',
   task: installZshPlugins,
   skip: () => false,
-}])
+}], {
+  renderer: VerboseRenderer,
+})
 
 const system = () => new Listr([{
   title: 'Install command line tools',
@@ -77,7 +81,9 @@ const system = () => new Listr([{
   title: 'Setup MacOS',
   task: setupMacOS,
   skip: () => handleSkipFor('macos'),
-}])
+}], {
+  renderer: VerboseRenderer,
+})
 
 const dotfiles = () => new Listr([{
   title: 'Backup old dotfiles',
@@ -87,7 +93,9 @@ const dotfiles = () => new Listr([{
   title: 'Install new dotfiles',
   task: installDotFiles,
   skip: () => false,
-}])
+}], {
+  renderer: VerboseRenderer,
+})
 
 const tasks = new Listr([{
   title: 'Homebrew',
@@ -117,7 +125,9 @@ const tasks = new Listr([{
   title: 'Git',
   task: () => git(userInfo),
   skip: () => handleSkipFor('git'),
-}])
+}], {
+  renderer: VerboseRenderer,
+})
 
 const runTasks = () => {
   log('\n💻  Setting up laptop, grab a coffee and enjoy :)')

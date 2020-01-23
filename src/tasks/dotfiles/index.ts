@@ -3,6 +3,8 @@ import fs from 'fs'
 import path from 'path'
 import shell from 'shelljs'
 
+const VerboseRenderer = require('listr-verbose-renderer')
+
 import { DOTFILES } from './constants'
 import { HOME } from '../../constants'
 
@@ -18,9 +20,9 @@ export const backupOldDotfiles = () => new Listr(Object.values(DOTFILES).map(fil
       // Avoid trash error message
     }
   },
-})))
+})), { renderer: VerboseRenderer })
 
 export const installDotFiles = () => new Listr(Object.keys(DOTFILES).map(source => ({
   title: source,
   task: () => shell.ln('-sf', path.resolve(source), path.resolve(HOME, DOTFILES[source])),
-})))
+})), { renderer: VerboseRenderer })
