@@ -1,13 +1,15 @@
 #!/usr/bin/env zsh
 
 # Install node
-sudo curl -Ls https://install-node.now.sh | sh;
-
-# Revert `.config` owner to current user
-sudo chown -R $(whoami) ~/.config
+curl -Ls https://install-node.now.sh | sh;
 
 # Install dependencies
 npm install;
+
+echo $(whoami);
+
+# Revert `.config` owner to current user
+chown -R $(whoami) ~/.config
 
 # Let's go
 ./bin/run;
