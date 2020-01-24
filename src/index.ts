@@ -272,7 +272,8 @@ class InstallDotfiles extends Command {
 
       // Ask for sudo privileges upfront
       shell.exec(`echo ${info.password} | sudo -Sv`, { async: true, silent: true }, (code, stdout, stderr) => {
-        if (stderr !== '') {
+        if (stderr !== '' && stderr.includes('incorrect')) {
+          error(info.password, stderr)
           return error('\n💥  Wrong password, aborting...')
         }
         // Run the tasks only if password is okay

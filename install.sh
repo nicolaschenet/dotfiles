@@ -12,10 +12,8 @@ export NVM_DIR="$HOME/.nvm"
 nvm install node
 
 # Install project dependencies
-npm install
-
-# Revert `.config` owner to current user (better safe than sorry)
-chown -R $(whoami) ~/.config
+npm install -g yarn
+yarn
 
 # Let's go
 ./bin/run;
