@@ -504,6 +504,9 @@ defaults write com.apple.commerce AutoUpdate -bool true
 # Allow the App Store to reboot machine on macOS updates
 # defaults write com.apple.commerce AutoUpdateRestartRequired -bool true
 
+# Globally disable GateKeeper (Allows app installations from anywhere)
+sudo spctl --master-disable
+
 ###############################################################################
 # Photos                                                                      #
 ###############################################################################

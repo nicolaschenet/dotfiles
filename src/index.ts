@@ -131,37 +131,48 @@ const dotfiles = () =>
     }
   )
 
-const tasks = new Listr([{
-  title: 'Homebrew',
-  task: homebrew,
-  skip: () => handleSkipFor('homebrew'),
-}, {
-  title: 'Zsh',
-  task: zsh,
-  skip: () => handleSkipFor('zsh'),
-}, {
-  title: 'Install Visual Studio Code extensions',
-  task: installVsCodeExtensions,
-  skip: () => handleSkipFor('vscode'),
-}, {
-  title: 'Install Yarn global packages',
-  task: installYarnPackages,
-  skip: () => handleSkipFor('yarn'),
-}, {
-  title: 'System',
-  task: system,
-  skip: () => false,
-}, {
-  title: 'Dotfiles',
-  task: dotfiles,
-  skip: () => handleSkipFor('dotfiles'),
-}, {
-  title: 'Git',
-  task: () => git(userInfo),
-  skip: () => handleSkipFor('git'),
-}], {
-  renderer: VerboseRenderer,
-})
+const tasks = new Listr(
+  [
+    {
+      title: 'System',
+      task: system,
+      skip: () => false,
+    },
+    {
+      title: 'Homebrew',
+      task: homebrew,
+      skip: () => handleSkipFor('homebrew'),
+    },
+    {
+      title: 'Zsh',
+      task: zsh,
+      skip: () => handleSkipFor('zsh'),
+    },
+    {
+      title: 'Install Visual Studio Code extensions',
+      task: installVsCodeExtensions,
+      skip: () => handleSkipFor('vscode'),
+    },
+    {
+      title: 'Install Yarn global packages',
+      task: installYarnPackages,
+      skip: () => handleSkipFor('yarn'),
+    },
+    {
+      title: 'Dotfiles',
+      task: dotfiles,
+      skip: () => handleSkipFor('dotfiles'),
+    },
+    {
+      title: 'Git',
+      task: () => git(userInfo),
+      skip: () => handleSkipFor('git'),
+    },
+  ],
+  {
+    renderer: VerboseRenderer,
+  }
+)
 
 const runTasks = () => {
   log('\n💻  Setting up laptop, grab a coffee and enjoy :)')
