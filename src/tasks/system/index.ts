@@ -13,6 +13,6 @@ export const installCliTools = (_ctx: Listr.ListrContext, task: Listr.ListrTaskW
   resolve()
 })
 
-export const installFonts = () => shell.cp('-R', `${FONTS_PATH}/*`, `${HOME}/Library/Fonts`)
+export const installFonts = () => shell.cp('-Rf', `${FONTS_PATH}/*`, `${HOME}/Library/Fonts`)
 
 export const setupMacOS = () => execCommand(`${path.resolve(`${SCRIPTS_PATH}/setup-macos.sh`)}`)

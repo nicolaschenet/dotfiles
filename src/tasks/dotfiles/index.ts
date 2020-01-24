@@ -20,6 +20,9 @@ export const backupOldDotfiles = () => new Listr(Object.values(DOTFILES).map(fil
   },
 })))
 
+export const prepareDotFilesDirs = () =>
+  shell.mkdir('-p', `${HOME}/Library/Application Support/Code/User`)
+
 export const installDotFiles = () => new Listr(Object.keys(DOTFILES).map(source => ({
   title: source,
   task: () => shell.ln('-sf', path.resolve(source), path.resolve(HOME, DOTFILES[source])),

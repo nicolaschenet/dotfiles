@@ -5,11 +5,18 @@ import shell from 'shelljs'
 import Listr from 'listr'
 
 import { installHomebrew, installBrewFormulae, installBrewCasks } from './tasks/homebrew'
-import { installOhMyZsh, installZshPlugins, initRbenv, installLatestRuby, setRubyVersion } from './tasks/zsh'
+import {
+  installOhMyZsh,
+  installZshPlugins,
+  initRbenv,
+  installLatestRuby,
+  setRubyVersion,
+  uninstallOhMyZsh,
+} from './tasks/zsh'
 import { installVsCodeExtensions } from './tasks/vscode'
 import { installYarnPackages } from './tasks/yarn'
 import { installCliTools, installFonts, setupMacOS } from './tasks/system'
-import { backupOldDotfiles, installDotFiles } from './tasks/dotfiles'
+import { backupOldDotfiles, installDotFiles, prepareDotFilesDirs } from './tasks/dotfiles'
 import { git } from './tasks/git'
 
 import { UserInfo } from './types'
@@ -43,27 +50,41 @@ const homebrew = () => new Listr([{
   skip: () => false,
 }])
 
-const zsh = () => new Listr([{
-  title: 'Init rbenv',
-  task: initRbenv,
-  skip: () => false,
-}, {
-  title: 'Install latest ruby version',
-  task: installLatestRuby,
-  skip: () => false,
-}, {
-  title: 'Setting ruby version to latest',
-  task: setRubyVersion,
-  skip: () => false,
-}, {
-  title: 'Install Oh My Zsh',
-  task: installOhMyZsh,
-  skip: () => false,
-}, {
-  title: 'Install plugins',
-  task: installZshPlugins,
-  skip: () => false,
-}])
+const zsh = () =>
+  new Listr(
+    [
+      {
+        title: 'Init rbenv',
+        task: initRbenv,
+        skip: () => false,
+      },
+      {
+        title: 'Install latest ruby version',
+        task: installLatestRuby,
+        skip: () => false,
+      },
+      {
+        title: 'Setting ruby version to latest',
+        task: setRubyVersion,
+        skip: () => false,
+      },
+      {
+        title: 'Uninstall Oh My Zsh',
+        task: uninstallOhMyZsh,
+        skip: () => false,
+      },
+      {
+        title: 'Install Oh My Zsh',
+        task: installOhMyZsh,
+        skip: () => false,
+      },
+      {
+        title: 'Install plugins',
+        task: installZshPlugins,
+        skip: () => false,
+      },
+    ]
+  )
 
 const system = () => new Listr([{
   title: 'Install command line tools',
@@ -79,45 +100,66 @@ const system = () => new Listr([{
   skip: () => handleSkipFor('macos'),
 }])
 
-const dotfiles = () => new Listr([{
-  title: 'Backup old dotfiles',
-  task: backupOldDotfiles,
-  skip: () => false,
-}, {
-  title: 'Install new dotfiles',
-  task: installDotFiles,
-  skip: () => false,
-}])
+const dotfiles = () =>
+  new Listr(
+    [
+      {
+        title: 'Backup old dotfiles',
+        task: backupOldDotfiles,
+        skip: () => false,
+      },
+      {
+        title: 'Prepare dotfiles directories',
+        task: prepareDotFilesDirs,
+        skip: () => false,
+      },
+      {
+        title: 'Install new dotfiles',
+        task: installDotFiles,
+        skip: () => false,
+      },
+    ]
+  )
 
-const tasks = new Listr([{
-  title: 'Homebrew',
-  task: homebrew,
-  skip: () => handleSkipFor('homebrew'),
-}, {
-  title: 'Zsh',
-  task: zsh,
-  skip: () => handleSkipFor('zsh'),
-}, {
-  title: 'Install Visual Studio Code extensions',
-  task: installVsCodeExtensions,
-  skip: () => handleSkipFor('vscode'),
-}, {
-  title: 'Install Yarn global packages',
-  task: installYarnPackages,
-  skip: () => handleSkipFor('yarn'),
-}, {
-  title: 'System',
-  task: system,
-  skip: () => false,
-}, {
-  title: 'Dotfiles',
-  task: dotfiles,
-  skip: () => handleSkipFor('dotfiles'),
-}, {
-  title: 'Git',
-  task: () => git(userInfo),
-  skip: () => handleSkipFor('git'),
-}])
+const tasks = new Listr(
+  [
+    {
+      title: 'System',
+      task: system,
+      skip: () => false,
+    },
+    {
+      title: 'Homebrew',
+      task: homebrew,
+      skip: () => handleSkipFor('homebrew'),
+    },
+    {
+      title: 'Zsh',
+      task: zsh,
+      skip: () => handleSkipFor('zsh'),
+    },
+    {
+      title: 'Install Visual Studio Code extensions',
+      task: installVsCodeExtensions,
+      skip: () => handleSkipFor('vscode'),
+    },
+    {
+      title: 'Install Yarn global packages',
+      task: installYarnPackages,
+      skip: () => handleSkipFor('yarn'),
+    },
+    {
+      title: 'Dotfiles',
+      task: dotfiles,
+      skip: () => handleSkipFor('dotfiles'),
+    },
+    {
+      title: 'Git',
+      task: () => git(userInfo),
+      skip: () => handleSkipFor('git'),
+    },
+  ]
+)
 
 const runTasks = () => {
   log('\n💻  Setting up laptop, grab a coffee and enjoy :)')
@@ -230,7 +272,8 @@ class InstallDotfiles extends Command {
 
       // Ask for sudo privileges upfront
       shell.exec(`echo ${info.password} | sudo -Sv`, { async: true, silent: true }, (code, stdout, stderr) => {
-        if (stderr !== '') {
+        if (stderr !== '' && stderr.includes('incorrect')) {
+          error(info.password, stderr)
           return error('\n💥  Wrong password, aborting...')
         }
         // Run the tasks only if password is okay

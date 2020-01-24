@@ -1,13 +1,19 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
-# Install node
-sudo curl -Ls https://install-node.now.sh | sh;
+# Install nvm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash
 
-# Revert `.config` owner to current user
-sudo chown -R $(whoami) ~/.config
+# Activate nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# Install dependencies
-npm install;
+# Install node via nvm
+nvm install node
+
+# Install project dependencies
+npm install -g yarn
+yarn
 
 # Let's go
 ./bin/run;
