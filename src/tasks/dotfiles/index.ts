@@ -24,7 +24,7 @@ export const backupOldDotfiles = () => new Listr(Object.values(DOTFILES).map(fil
 })), { renderer: VerboseRenderer })
 
 export const prepareDotFilesDirs = () =>
-  execCommand(`mkdir -p ${HOME}/Library/Application Support/Code/User`)
+  shell.mkdir('-p', `${HOME}/Library/Application Support/Code/User`)
 
 export const installDotFiles = () => new Listr(Object.keys(DOTFILES).map(source => ({
   title: source,
