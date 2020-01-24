@@ -9,7 +9,7 @@
 ### Packages
  - :octocat: You need to have `git` installed
 
-### How to add your env and secrets 
+### How to add your env and secrets
  - Create a `.secrets` file in your HOME directory
  - Put in every secret tokens or any other personal variables you need to be exported
 
@@ -25,7 +25,7 @@ GITLAB_TOKEN:xxxxxxxxxxx
 
 ```bash
 # Clone the repo
-git clone git@github.com:nicolaschenet/dotfiles.git ~/.dotfiles
+git clone https://github.com/nicolaschenet/dotfiles.git ~/.dotfiles
 
 # Setup laptop
 cd ~/.dotfiles
