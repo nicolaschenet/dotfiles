@@ -1,8 +1,6 @@
 import Listr from 'listr'
 import shell from 'shelljs'
 
-const VerboseRenderer = require('listr-verbose-renderer')
-
 import { HOME } from '../../constants'
 import { execCommand } from '../../utils'
 
@@ -42,4 +40,4 @@ export const installZshPlugins = () => new Listr([{
 }, {
   title: 'power-level-10k ',
   task: installP10K,
-}], { renderer: VerboseRenderer })
+}])

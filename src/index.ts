@@ -4,8 +4,6 @@ import inquirer from 'inquirer'
 import shell from 'shelljs'
 import Listr from 'listr'
 
-const VerboseRenderer = require('listr-verbose-renderer')
-
 import { installHomebrew, installBrewFormulae, installBrewCasks } from './tasks/homebrew'
 import {
   installOhMyZsh,
@@ -85,10 +83,7 @@ const zsh = () =>
         task: installZshPlugins,
         skip: () => false,
       },
-    ],
-    {
-      renderer: VerboseRenderer,
-    }
+    ]
   )
 
 const system = () => new Listr([{
@@ -103,9 +98,7 @@ const system = () => new Listr([{
   title: 'Setup MacOS',
   task: setupMacOS,
   skip: () => handleSkipFor('macos'),
-}], {
-  renderer: VerboseRenderer,
-})
+}])
 
 const dotfiles = () =>
   new Listr(
@@ -125,10 +118,7 @@ const dotfiles = () =>
         task: installDotFiles,
         skip: () => false,
       },
-    ],
-    {
-      renderer: VerboseRenderer,
-    }
+    ]
   )
 
 const tasks = new Listr(
@@ -168,10 +158,7 @@ const tasks = new Listr(
       task: () => git(userInfo),
       skip: () => handleSkipFor('git'),
     },
-  ],
-  {
-    renderer: VerboseRenderer,
-  }
+  ]
 )
 
 const runTasks = () => {
