@@ -1,8 +1,11 @@
 /* eslint-disable no-console */
 import { Command } from '@oclif/command'
+
+import Listr from 'listr'
+
+import chalk from 'chalk'
 import inquirer from 'inquirer'
 import shell from 'shelljs'
-import Listr from 'listr'
 
 import { installHomebrew, installBrewFormulae, installBrewCasks } from './tasks/homebrew'
 import {
@@ -15,12 +18,16 @@ import {
 } from './tasks/zsh'
 import { installVsCodeExtensions } from './tasks/vscode'
 import { installYarnPackages } from './tasks/yarn'
-import { installCliTools, installFonts, setupMacOS } from './tasks/system'
+import {
+  installCliTools,
+  installFonts,
+  installWallpaper,
+  setupMacOS,
+} from './tasks/system'
 import { backupOldDotfiles, installDotFiles, prepareDotFilesDirs } from './tasks/dotfiles'
 import { git } from './tasks/git'
 
 import { UserInfo } from './types'
-import { installWallpaper } from './tasks/system'
 
 const { error, log } = console
 
@@ -167,13 +174,14 @@ const tasks = new Listr(
 )
 
 const runTasks = () => {
-  log('\n💻  Setting up laptop, grab a coffee and enjoy :)')
-  log('================================================\n')
+  log(chalk.bold.blueBright('\n💻  Setting up laptop, grab a coffee and enjoy :)'))
+  log('================================================')
+  log(chalk.dim('A few system pop-ups could appear... Just say yes!\n\n'))
   tasks
   .run()
   .then(() => {
-    log("\n🎉  You're all good!")
-    log('\nℹ️  Note that some of the changes require a logout/restart to take effect.')
+    log(chalk.bold("\n\n🎉  You're all good!"))
+    log(chalk.dim('\nNote that some of the changes require a logout/restart to take effect.\n'))
   })
   .catch(error => {
     error(error)
@@ -283,8 +291,7 @@ class InstallDotfiles extends Command {
       // Ask for sudo privileges upfront
       shell.exec(`echo ${info.password} | sudo -Sv`, { async: true, silent: true }, (code, stdout, stderr) => {
         if (stderr !== '' && stderr.includes('incorrect')) {
-          error(info.password, stderr)
-          return error('\n💥  Wrong password, aborting...')
+          return error(chalk.bold.redBright('\n💥  Wrong password, aborting...'))
         }
         // Run the tasks only if password is okay
         runTasks()
