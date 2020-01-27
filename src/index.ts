@@ -20,6 +20,7 @@ import { backupOldDotfiles, installDotFiles, prepareDotFilesDirs } from './tasks
 import { git } from './tasks/git'
 
 import { UserInfo } from './types'
+import { installWallpaper } from './tasks/system'
 
 const { error, log } = console
 
@@ -94,6 +95,10 @@ const system = () => new Listr([{
   title: 'Install custom fonts',
   task: installFonts,
   skip: () => handleSkipFor('fonts'),
+}, {
+  title: 'Install wallpaper',
+  task: installWallpaper,
+  skip: () => handleSkipFor('wallpaper'),
 }, {
   title: 'Setup MacOS',
   task: setupMacOS,
@@ -227,6 +232,11 @@ class InstallDotfiles extends Command {
         {
           name: 'Custom fonts',
           value: 'fonts',
+          checked: true,
+        },
+        {
+          name: 'Custom wallpaper',
+          value: 'wallpaper',
           checked: true,
         },
         {

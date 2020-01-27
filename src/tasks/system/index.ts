@@ -2,7 +2,7 @@ import Listr from 'listr'
 import path from 'path'
 import shell from 'shelljs'
 
-import { HOME, FONTS_PATH, SCRIPTS_PATH } from '../../constants'
+import { HOME, FONTS_PATH, SCRIPTS_PATH, IMAGES_PATH } from '../../constants'
 import { execCommand } from '../../utils'
 
 export const installCliTools = (_ctx: Listr.ListrContext, task: Listr.ListrTaskWrapper<Listr.ListrContext>) => new Promise(resolve => {
@@ -14,5 +14,12 @@ export const installCliTools = (_ctx: Listr.ListrContext, task: Listr.ListrTaskW
 })
 
 export const installFonts = () => shell.cp('-Rf', `${FONTS_PATH}/*`, `${HOME}/Library/Fonts`)
+
+export const installWallpaper = () => execCommand(
+  `osascript -e 'tell application "Finder" to set desktop picture to POSIX file "${path.join(
+    IMAGES_PATH,
+    'wallpaper.jpg'
+  )}"'`
+)
 
 export const setupMacOS = () => execCommand(`${path.resolve(`${SCRIPTS_PATH}/setup-macos.sh`)}`)
