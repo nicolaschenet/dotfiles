@@ -17,6 +17,7 @@ export const VSCODE_EXTENSIONS = [
   'samverschueren.final-newline',
   'shd101wyy.markdown-preview-enhanced',
   'tristanremy.mirage',
+  'usernamehw.errorlens',
   'waderyan.gitblame',
   'yummygum.city-lights-theme',
   'Zignd.html-css-class-completion',
