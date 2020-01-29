@@ -73,5 +73,6 @@
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
     },
-    "python.jediEnabled": false
+    "python.jediEnabled": false,
+    "typescript.updateImportsOnFileMove.enabled": "always"
 }
