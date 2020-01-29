@@ -7,6 +7,7 @@ export const VSCODE_EXTENSIONS = [
   'christian-kohler.path-intellisense',
   'dbaeumer.vscode-eslint',
   'Equinusocio.vsc-material-theme',
+  'esbenp.prettier-vscode',
   'marcosfede.awesome-material-theme',
   'mgmcdermott.vscode-language-babel',
   'mikestead.dotenv',
