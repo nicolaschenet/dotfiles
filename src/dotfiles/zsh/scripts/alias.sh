@@ -28,6 +28,7 @@ alias branch-delete-remote="git branch-delete-remote"
 alias bc="git branch-create"
 alias bd="git branch-delete"
 alias bdr="git branch-delete-remote"
+alias gcr="git commit-review"
 
 alias hotkit="yarn && yarn hotdog --env.entries=styleguide"
 alias hotspa="yarn && yarn hotdog --env.entries=spa"
