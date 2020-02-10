@@ -41,3 +41,7 @@ alias w="cd ~/dd/web-ui"
 alias vs="code ~/Library/Application\ Support/Code/User/settings.json"
 
 alias fix-staging="branches-status staging fix"
+
+# Uses the remote branch version of `to-staging`, to make sure the terminal
+# is not blocked
+alias to-staging="to-staging -b $(git rev-parse --abbrev-ref HEAD)"
