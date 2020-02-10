@@ -14,3 +14,4 @@
 	branch-delete = "!bd() { git branch -D $1; }; bd"
 	branch-delete-remote= "!bdr() { git push origin :$1; }; bdr"
 	commit-review = "!cr() { git ci -m '👌  PR review changes: '$1; }; cr"
+	squash = "!f(){ git reset --soft HEAD~${1} && git commit --edit -m\"$(git log --format=%B --reverse HEAD..HEAD@{1})\"; };f"
